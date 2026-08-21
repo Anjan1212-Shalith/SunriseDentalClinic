@@ -1,0 +1,48 @@
+# Compiled class files
+target/
+*.class
+
+# Log files
+*.log
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# NetBeans private user-specific settings
+nbproject/private/
+build/
+dist/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+.metadata/
+bin/
+tmp/
+
+# Documentation & Scratch diagrams (keep local / desktop)
+docs/
+*.drawio
+
+# OS generated files
+Thumbs.db
+.DS_Store
+*.swp
+*~
