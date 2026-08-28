@@ -32,6 +32,7 @@ public class Dashboard extends javax.swing.JFrame {
         this.currentUser = user != null ? user : new User("admin", "", "System Administrator", "Admin", "");
         initComponents();
         UITheme.setFrameIcon(this);
+        UITheme.setStandardWindowSize(this);
         
         // Setup Button Icons
         btnPatients.setIcon(UITheme.getIcon("patient.png", 20, 20));

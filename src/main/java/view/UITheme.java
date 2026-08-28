@@ -95,6 +95,15 @@ public class UITheme {
         } catch (Exception ignored) {}
     }
 
+    // Set standard uniform window size across all forms (1050 x 680)
+    public static void setStandardWindowSize(JFrame frame) {
+        Dimension dim = new Dimension(1050, 680);
+        frame.setPreferredSize(dim);
+        frame.setMinimumSize(dim);
+        frame.setSize(dim);
+        frame.setLocationRelativeTo(null);
+    }
+
     // Create styled primary button
     public static JButton createPrimaryButton(String text) {
         JButton btn = new JButton(text);

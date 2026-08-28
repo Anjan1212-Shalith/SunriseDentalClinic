@@ -27,6 +27,7 @@ public class AdminStaffForm extends javax.swing.JFrame {
         this.parentDashboard = parentDashboard;
         initComponents();
         UITheme.setFrameIcon(this);
+        UITheme.setStandardWindowSize(this);
         
         // Setup icons
         btnSave.setIcon(UITheme.getIcon("add.png", 16, 16));

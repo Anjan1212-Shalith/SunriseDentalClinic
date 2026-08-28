@@ -42,6 +42,7 @@ public class BillingForm extends javax.swing.JFrame {
         this.parentDashboard = parentDashboard;
         initComponents();
         UITheme.setFrameIcon(this);
+        UITheme.setStandardWindowSize(this);
         
         // Setup icons
         btnCalculate.setIcon(UITheme.getIcon("calc.png", 16, 16));

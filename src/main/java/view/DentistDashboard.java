@@ -31,6 +31,7 @@ public class DentistDashboard extends javax.swing.JFrame {
         this.currentDentist = dentistUser != null ? dentistUser : new User("drpriyanga", "", "Dr. Priyanga Jayawardena", "Dentist", "");
         initComponents();
         UITheme.setFrameIcon(this);
+        UITheme.setStandardWindowSize(this);
         
         lblDoctorGreeting.setText("Attending Doctor: " + currentDentist.getFullName() + " (" + currentDentist.getRole() + ")");
         
@@ -184,7 +185,7 @@ public class DentistDashboard extends javax.swing.JFrame {
         );
 
         tableCard.setBackground(new java.awt.Color(255, 255, 255));
-        tableCard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 232, 240)));
+        tableCard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblTableTitle.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         lblTableTitle.setForeground(new java.awt.Color(15, 23, 42));
@@ -250,7 +251,7 @@ public class DentistDashboard extends javax.swing.JFrame {
         );
 
         formCard.setBackground(new java.awt.Color(255, 255, 255));
-        formCard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(226, 232, 240)));
+        formCard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblFormTitle.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         lblFormTitle.setForeground(new java.awt.Color(15, 23, 42));
@@ -280,6 +281,11 @@ public class DentistDashboard extends javax.swing.JFrame {
         lblRecommendedTreatment.setText("Recommended Future Treatment:");
 
         cmbRecommendedTreatment.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        cmbRecommendedTreatment.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbRecommendedTreatmentActionPerformed(evt);
+            }
+        });
 
         lblFollowUp.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblFollowUp.setForeground(new java.awt.Color(15, 23, 42));
@@ -465,6 +471,10 @@ public class DentistDashboard extends javax.swing.JFrame {
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         clearForm();
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void cmbRecommendedTreatmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbRecommendedTreatmentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbRecommendedTreatmentActionPerformed
 
     private void clearForm() {
         selectedAppointmentNo = "";
