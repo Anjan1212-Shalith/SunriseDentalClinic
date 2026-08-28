@@ -9,9 +9,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.net.URL;
 
-/**
- * UI Theme & Styling Tokens for Sunrise Dental Clinic Swing Application
- */
+// UI Theme and styling tokens for Sunrise Dental Clinic
 public class UITheme {
 
     // Color Palette
@@ -36,9 +34,7 @@ public class UITheme {
     public static final Font FONT_BOLD = new Font("Segoe UI", Font.BOLD, 13);
     public static final Font FONT_SMALL = new Font("Segoe UI", Font.PLAIN, 11);
 
-    /**
-     * Initializes modern System Look & Feel
-     */
+    // Modern look and feel setup
     public static void setupLookAndFeel() {
         try {
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -54,12 +50,7 @@ public class UITheme {
         }
     }
 
-    /**
-     * Loads the Clinic Logo image as an ImageIcon scaled to the specified dimensions
-     * @param width Desired width in pixels
-     * @param height Desired height in pixels
-     * @return Scaled ImageIcon or null if file not found
-     */
+    // Get scaled clinic logo icon
     public static ImageIcon getLogoIcon(int width, int height) {
         try {
             URL imgURL = UITheme.class.getResource("/images/logo.png");
@@ -69,15 +60,32 @@ public class UITheme {
                 return new ImageIcon(scaled);
             }
         } catch (Exception e) {
-            System.err.println("Could not load logo icon: " + e.getMessage());
+            System.out.println("Could not load logo icon: " + e.getMessage());
         }
         return null;
     }
 
-    /**
-     * Sets the application window taskbar/titlebar icon
-     * @param frame JFrame to set icon on
-     */
+    // Get scaled PNG icon from icons directory
+    public static ImageIcon getIcon(String iconName, int width, int height) {
+        try {
+            URL imgURL = UITheme.class.getResource("/images/icons/" + iconName);
+            if (imgURL != null) {
+                ImageIcon original = new ImageIcon(imgURL);
+                Image scaled = original.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
+                return new ImageIcon(scaled);
+            }
+        } catch (Exception e) {
+            System.out.println("Could not load icon " + iconName + ": " + e.getMessage());
+        }
+        return null;
+    }
+
+    // Convenience method with default 18x18 size
+    public static ImageIcon getIcon(String iconName) {
+        return getIcon(iconName, 18, 18);
+    }
+
+    // Set frame window icon
     public static void setFrameIcon(JFrame frame) {
         try {
             URL imgURL = UITheme.class.getResource("/images/logo.png");
@@ -87,9 +95,7 @@ public class UITheme {
         } catch (Exception ignored) {}
     }
 
-    /**
-     * Creates a styled primary button
-     */
+    // Create styled primary button
     public static JButton createPrimaryButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(FONT_BOLD);
@@ -102,9 +108,7 @@ public class UITheme {
         return btn;
     }
 
-    /**
-     * Creates a styled secondary button
-     */
+    // Create styled secondary button
     public static JButton createSecondaryButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(FONT_BOLD);
@@ -117,9 +121,7 @@ public class UITheme {
         return btn;
     }
 
-    /**
-     * Creates a styled danger button
-     */
+    // Create styled danger button
     public static JButton createDangerButton(String text) {
         JButton btn = new JButton(text);
         btn.setFont(FONT_BOLD);
@@ -132,9 +134,7 @@ public class UITheme {
         return btn;
     }
 
-    /**
-     * Creates a styled text input field
-     */
+    // Create styled text field
     public static JTextField createTextField(int columns) {
         JTextField tf = new JTextField(columns);
         tf.setFont(FONT_REGULAR);
@@ -144,9 +144,7 @@ public class UITheme {
         return tf;
     }
 
-    /**
-     * Creates a styled password input field
-     */
+    // Create styled password field
     public static JPasswordField createPasswordField(int columns) {
         JPasswordField pf = new JPasswordField(columns);
         pf.setFont(FONT_REGULAR);
@@ -156,9 +154,7 @@ public class UITheme {
         return pf;
     }
 
-    /**
-     * Creates a styled card container panel
-     */
+    // Create styled card panel
     public static JPanel createCardPanel() {
         JPanel panel = new JPanel();
         panel.setBackground(CARD_BG);
@@ -166,9 +162,7 @@ public class UITheme {
         return panel;
     }
 
-    /**
-     * Styles a JTable with professional headers and row formatting
-     */
+    // Style JTable with clean headers
     public static void styleTable(JTable table) {
         table.setFont(FONT_REGULAR);
         table.setRowHeight(32);

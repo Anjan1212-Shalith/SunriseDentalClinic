@@ -16,6 +16,9 @@ public class Appointment {
     private String appointmentTime;
     private String status;
     private String notes;
+    private String diagnosis;
+    private String recommendedTreatment;
+    private String followUpAdvice;
     private Timestamp createdAt;
 
     // Transient fee attributes for calculation
@@ -109,6 +112,30 @@ public class Appointment {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public void setDiagnosis(String diagnosis) {
+        this.diagnosis = diagnosis;
+    }
+
+    public String getRecommendedTreatment() {
+        return recommendedTreatment;
+    }
+
+    public void setRecommendedTreatment(String recommendedTreatment) {
+        this.recommendedTreatment = recommendedTreatment;
+    }
+
+    public String getFollowUpAdvice() {
+        return followUpAdvice;
+    }
+
+    public void setFollowUpAdvice(String followUpAdvice) {
+        this.followUpAdvice = followUpAdvice;
     }
 
     public Timestamp getCreatedAt() {

@@ -42,6 +42,16 @@ public class BillingForm extends javax.swing.JFrame {
         this.parentDashboard = parentDashboard;
         initComponents();
         UITheme.setFrameIcon(this);
+        
+        // Setup icons
+        btnCalculate.setIcon(UITheme.getIcon("calc.png", 16, 16));
+        btnSaveBill.setIcon(UITheme.getIcon("add.png", 16, 16));
+        btnPrint.setIcon(UITheme.getIcon("print.png", 16, 16));
+        btnClear.setIcon(UITheme.getIcon("clear.png", 16, 16));
+        btnSearch.setIcon(UITheme.getIcon("search.png", 16, 16));
+        btnReset.setIcon(UITheme.getIcon("refresh.png", 16, 16));
+        btnBack.setIcon(UITheme.getIcon("back.png", 16, 16));
+        
         tableModel = (DefaultTableModel) tblBills.getModel();
         UITheme.styleTable(tblBills);
         loadAppointmentsDropdown();

@@ -36,6 +36,17 @@ public class AppointmentForm extends javax.swing.JFrame {
         this.parentDashboard = parentDashboard;
         initComponents();
         UITheme.setFrameIcon(this);
+        
+        // Setup icons
+        btnSave.setIcon(UITheme.getIcon("add.png", 16, 16));
+        btnUpdate.setIcon(UITheme.getIcon("edit.png", 16, 16));
+        btnDelete.setIcon(UITheme.getIcon("delete.png", 16, 16));
+        btnClear.setIcon(UITheme.getIcon("clear.png", 16, 16));
+        btnSearch.setIcon(UITheme.getIcon("search.png", 16, 16));
+        btnResetSearch.setIcon(UITheme.getIcon("refresh.png", 16, 16));
+        btnProceedToBilling.setIcon(UITheme.getIcon("billing.png", 16, 16));
+        btnBack.setIcon(UITheme.getIcon("back.png", 16, 16));
+        
         tableModel = (DefaultTableModel) tblAppointments.getModel();
         UITheme.styleTable(tblAppointments);
         loadPatientsCombo();
@@ -43,6 +54,26 @@ public class AppointmentForm extends javax.swing.JFrame {
         loadTreatmentsCombo();
         loadAppointmentData();
         generateNewAppointmentNo();
+        
+        cmbPatient.addActionListener(e -> checkPatientDoctorRecommendations());
+    }
+
+    private void checkPatientDoctorRecommendations() {
+        Object pObj = cmbPatient.getSelectedItem();
+        if (pObj instanceof PatientComboItem) {
+            PatientComboItem p = (PatientComboItem) pObj;
+            Appointment rec = appointmentDAO.getLatestRecommendationForPatient(p.id);
+            if (rec != null && rec.getRecommendedTreatment() != null && !rec.getRecommendedTreatment().isEmpty()) {
+                for (int i = 0; i < cmbTreatment.getItemCount(); i++) {
+                    Object tObj = cmbTreatment.getItemAt(i);
+                    if (tObj instanceof TreatmentComboItem && ((TreatmentComboItem) tObj).name.equalsIgnoreCase(rec.getRecommendedTreatment())) {
+                        cmbTreatment.setSelectedIndex(i);
+                        break;
+                    }
+                }
+                txaNotes.setText("Doctor's Recommendation (" + rec.getDentistName() + "): " + rec.getRecommendedTreatment() + " [" + rec.getFollowUpAdvice() + "]");
+            }
+        }
     }
 
     /**

@@ -21,6 +21,14 @@ public class LoginForm extends javax.swing.JFrame {
     public LoginForm() {
         initComponents();
         UITheme.setFrameIcon(this);
+        
+        // Setup icons
+        btnLogin.setIcon(UITheme.getIcon("login.png", 16, 16));
+        btnSignup.setIcon(UITheme.getIcon("staff.png", 16, 16));
+        btnExit.setIcon(UITheme.getIcon("logout.png", 16, 16));
+        lblUser.setIcon(UITheme.getIcon("user.png", 16, 16));
+        lblPass.setIcon(UITheme.getIcon("lock.png", 16, 16));
+        
         checkDatabaseStatus();
     }
 
@@ -263,8 +271,13 @@ public class LoginForm extends javax.swing.JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
 
             this.dispose();
-            Dashboard dashboard = new Dashboard(user);
-            dashboard.setVisible(true);
+            if ("Dentist".equalsIgnoreCase(user.getRole())) {
+                DentistDashboard dentistDashboard = new DentistDashboard(user);
+                dentistDashboard.setVisible(true);
+            } else {
+                Dashboard dashboard = new Dashboard(user);
+                dashboard.setVisible(true);
+            }
         } else {
             if (!DBconnection.isConnected()) {
                 JOptionPane.showMessageDialog(this,

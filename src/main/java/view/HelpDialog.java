@@ -11,6 +11,7 @@ public class HelpDialog extends javax.swing.JDialog {
     public HelpDialog(java.awt.Frame parent) {
         super(parent, "Sunrise Dental Clinic - User Guide & Instructions", true);
         initComponents();
+        btnClose.setIcon(UITheme.getIcon("back.png", 16, 16));
         txtHelp.setText(getHelpHtmlContent());
         txtHelp.setCaretPosition(0);
     }

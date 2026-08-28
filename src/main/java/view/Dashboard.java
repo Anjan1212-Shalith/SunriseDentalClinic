@@ -32,13 +32,34 @@ public class Dashboard extends javax.swing.JFrame {
         this.currentUser = user != null ? user : new User("admin", "", "System Administrator", "Admin", "");
         initComponents();
         UITheme.setFrameIcon(this);
-        lblUserGreeting.setText("👤 " + currentUser.getFullName() + " (" + currentUser.getRole() + ")");
+        
+        // Setup Button Icons
+        btnPatients.setIcon(UITheme.getIcon("patient.png", 20, 20));
+        btnPatients.setText("Patient Management");
+        btnAppointments.setIcon(UITheme.getIcon("appointment.png", 20, 20));
+        btnAppointments.setText("Appointment Booking");
+        btnBilling.setIcon(UITheme.getIcon("billing.png", 20, 20));
+        btnBilling.setText("Billing & Invoicing");
+        btnStaffManagement.setIcon(UITheme.getIcon("staff.png", 20, 20));
+        btnStaffManagement.setText("Staff Management");
+        btnHelp.setIcon(UITheme.getIcon("help.png", 20, 20));
+        btnHelp.setText("Help & User Guide");
+        btnToggleWebService.setIcon(UITheme.getIcon("web.png", 20, 20));
+        btnToggleWebService.setText("Start Web Service");
+        btnLogout.setIcon(UITheme.getIcon("logout.png", 20, 20));
+        btnLogout.setText("Logout");
+        btnRefresh.setIcon(UITheme.getIcon("refresh.png", 16, 16));
+        btnRefresh.setText("Refresh");
+        
+        lblUserGreeting.setIcon(UITheme.getIcon("user.png", 16, 16));
+        lblUserGreeting.setText(currentUser.getFullName() + " (" + currentUser.getRole() + ")");
+        
         tableModel = (DefaultTableModel) tblRecentAppointments.getModel();
         UITheme.styleTable(tblRecentAppointments);
         
         // Visual indicator for role permissions
         if (!"Admin".equalsIgnoreCase(currentUser.getRole())) {
-            btnStaffManagement.setText("🔒 Staff (Admin Only)");
+            btnStaffManagement.setText("Staff (Admin Only)");
         }
         
         loadDashboardStatistics();
@@ -140,7 +161,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnPatients.setBackground(new java.awt.Color(30, 41, 59));
         btnPatients.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnPatients.setForeground(new java.awt.Color(255, 255, 255));
-        btnPatients.setText("👥 Patient Management");
+        btnPatients.setText("Patient Management");
         btnPatients.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPatients.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnPatients.addActionListener(new java.awt.event.ActionListener() {
@@ -152,7 +173,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnAppointments.setBackground(new java.awt.Color(30, 41, 59));
         btnAppointments.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnAppointments.setForeground(new java.awt.Color(255, 255, 255));
-        btnAppointments.setText("📅 Appointment Booking");
+        btnAppointments.setText("Appointment Booking");
         btnAppointments.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAppointments.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnAppointments.addActionListener(new java.awt.event.ActionListener() {
@@ -164,7 +185,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnBilling.setBackground(new java.awt.Color(30, 41, 59));
         btnBilling.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnBilling.setForeground(new java.awt.Color(255, 255, 255));
-        btnBilling.setText("💳 Billing & Invoicing");
+        btnBilling.setText("Billing & Invoicing");
         btnBilling.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBilling.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnBilling.addActionListener(new java.awt.event.ActionListener() {
@@ -176,7 +197,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnStaffManagement.setBackground(new java.awt.Color(30, 41, 59));
         btnStaffManagement.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnStaffManagement.setForeground(new java.awt.Color(255, 255, 255));
-        btnStaffManagement.setText("👤 Staff Management");
+        btnStaffManagement.setText("Staff Management");
         btnStaffManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStaffManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnStaffManagement.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +209,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnHelp.setBackground(new java.awt.Color(30, 41, 59));
         btnHelp.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnHelp.setForeground(new java.awt.Color(255, 255, 255));
-        btnHelp.setText("❓ Help & User Guide");
+        btnHelp.setText("Help & User Guide");
         btnHelp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHelp.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnHelp.addActionListener(new java.awt.event.ActionListener() {
@@ -200,7 +221,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnToggleWebService.setBackground(new java.awt.Color(30, 41, 59));
         btnToggleWebService.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnToggleWebService.setForeground(new java.awt.Color(255, 255, 255));
-        btnToggleWebService.setText("🌐 Start Web Service");
+        btnToggleWebService.setText("Start Web Service");
         btnToggleWebService.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnToggleWebService.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnToggleWebService.addActionListener(new java.awt.event.ActionListener() {
@@ -212,7 +233,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnLogout.setBackground(new java.awt.Color(239, 68, 68));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(255, 255, 255));
-        btnLogout.setText("🚪 Logout");
+        btnLogout.setText("Logout");
         btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

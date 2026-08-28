@@ -218,6 +218,60 @@ public class AppointmentDAO {
         return 0;
     }
 
+    // Get all appointments assigned to a specific dentist
+    public List<Appointment> getAppointmentsByDentist(String dentistName) {
+        List<Appointment> list = new ArrayList<>();
+        String sql = "SELECT * FROM appointments WHERE dentist_name LIKE ? ORDER BY appointment_date DESC, appointment_time ASC";
+        try (Connection con = DBconnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            if (con == null) return list;
+            pst.setString(1, "%" + dentistName + "%");
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    list.add(extractAppointmentFromResultSet(rs));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Get dentist appointments error: " + e.getMessage());
+        }
+        return list;
+    }
+
+    // Save dentist consultation diagnosis and future recommended treatments
+    public boolean saveDentistFeedback(String appointmentNo, String diagnosis, String recommendedTreatment, String followUpAdvice) {
+        String sql = "UPDATE appointments SET diagnosis = ?, recommended_treatment = ?, follow_up_advice = ?, status = 'Completed' WHERE appointment_no = ?";
+        try (Connection con = DBconnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            if (con == null) return false;
+            pst.setString(1, diagnosis);
+            pst.setString(2, recommendedTreatment);
+            pst.setString(3, followUpAdvice);
+            pst.setString(4, appointmentNo);
+            return pst.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.out.println("Save dentist feedback error: " + e.getMessage());
+        }
+        return false;
+    }
+
+    // Get latest doctor recommendation for patient (for staff booking suggestion)
+    public Appointment getLatestRecommendationForPatient(int patientId) {
+        String sql = "SELECT * FROM appointments WHERE patient_id = ? AND recommended_treatment IS NOT NULL AND recommended_treatment != '' ORDER BY appointment_date DESC, created_at DESC LIMIT 1";
+        try (Connection con = DBconnection.getConnection();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+            if (con == null) return null;
+            pst.setInt(1, patientId);
+            try (ResultSet rs = pst.executeQuery()) {
+                if (rs.next()) {
+                    return extractAppointmentFromResultSet(rs);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Get patient recommendation error: " + e.getMessage());
+        }
+        return null;
+    }
+
     private Appointment extractAppointmentFromResultSet(ResultSet rs) throws SQLException {
         Appointment a = new Appointment();
         a.setAppointmentNo(rs.getString("appointment_no"));
@@ -229,6 +283,11 @@ public class AppointmentDAO {
         a.setAppointmentTime(rs.getString("appointment_time"));
         a.setStatus(rs.getString("status"));
         a.setNotes(rs.getString("notes"));
+        try {
+            a.setDiagnosis(rs.getString("diagnosis"));
+            a.setRecommendedTreatment(rs.getString("recommended_treatment"));
+            a.setFollowUpAdvice(rs.getString("follow_up_advice"));
+        } catch (SQLException ignored) {}
         a.setCreatedAt(rs.getTimestamp("created_at"));
         return a;
     }

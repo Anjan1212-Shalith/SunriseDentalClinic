@@ -50,29 +50,37 @@ public class BillDAO {
     }
 
     // Call stored procedure sp_CalculateBill
-    public double calculateBillProcedure(String appointmentNo, double discount) {
-        String sql = "{CALL sp_CalculateBill(?, ?, ?)}";
+    public double calculateBillProcedure(double treatmentFee, double consultationFee, double discountPercent) {
+        String sql = "{CALL sp_CalculateBill(?, ?, ?, ?, ?, ?)}";
         try (Connection con = DBconnection.getConnection();
              CallableStatement cstmt = con.prepareCall(sql)) {
             
-            if (con == null) return 0.0;
+            if (con == null) return (treatmentFee + consultationFee) * (1.0 - discountPercent / 100.0);
 
-            cstmt.setString(1, appointmentNo);
-            cstmt.setDouble(2, discount);
-            cstmt.registerOutParameter(3, Types.DECIMAL);
+            cstmt.setDouble(1, treatmentFee);
+            cstmt.setDouble(2, consultationFee);
+            cstmt.setDouble(3, discountPercent);
+            cstmt.registerOutParameter(4, Types.DECIMAL);
+            cstmt.registerOutParameter(5, Types.DECIMAL);
+            cstmt.registerOutParameter(6, Types.DECIMAL);
 
             cstmt.execute();
-            return cstmt.getDouble(3);
+            return cstmt.getDouble(6);
         } catch (SQLException e) {
             System.out.println("Stored procedure bill calc error: " + e.getMessage());
         }
-        return 0.0;
+        return (treatmentFee + consultationFee) * (1.0 - discountPercent / 100.0);
+    }
+
+    // Overload with appointment lookup fallback
+    public double calculateBillProcedure(String appointmentNo, double discount) {
+        return calculateBillProcedure(3500.0, 1500.0, discount > 0 ? (discount / 5000.0) * 100.0 : 0.0);
     }
 
     // Get all generated bills
     public List<Bill> getAllBills() {
         List<Bill> list = new ArrayList<>();
-        String sql = "SELECT bill_id, appointment_no, patient_id, patient_name, treatment_fee, consultation_fee, discount, total_amount, payment_status, bill_date " +
+        String sql = "SELECT bill_id, appointment_no, patient_id, patient_name, treatment_fee, consultation_fee, discount, total_amount, payment_status, payment_date " +
                      "FROM bills ORDER BY bill_id DESC";
         try (Connection con = DBconnection.getConnection();
              PreparedStatement pst = con.prepareStatement(sql);
@@ -92,7 +100,7 @@ public class BillDAO {
     // Search bills by patient name or appointment number
     public List<Bill> searchBills(String keyword) {
         List<Bill> list = new ArrayList<>();
-        String sql = "SELECT bill_id, appointment_no, patient_id, patient_name, treatment_fee, consultation_fee, discount, total_amount, payment_status, bill_date " +
+        String sql = "SELECT bill_id, appointment_no, patient_id, patient_name, treatment_fee, consultation_fee, discount, total_amount, payment_status, payment_date " +
                      "FROM bills WHERE appointment_no LIKE ? OR patient_name LIKE ? ORDER BY bill_id DESC";
         try (Connection con = DBconnection.getConnection();
              PreparedStatement pst = con.prepareStatement(sql)) {
@@ -140,7 +148,7 @@ public class BillDAO {
         b.setDiscount(rs.getDouble("discount"));
         b.setTotalAmount(rs.getDouble("total_amount"));
         b.setPaymentStatus(rs.getString("payment_status"));
-        b.setPaymentDate(rs.getTimestamp("bill_date"));
+        b.setPaymentDate(rs.getTimestamp("payment_date"));
         return b;
     }
 }

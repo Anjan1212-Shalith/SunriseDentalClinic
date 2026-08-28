@@ -27,6 +27,16 @@ public class PatientForm extends javax.swing.JFrame {
         this.parentDashboard = parentDashboard;
         initComponents();
         UITheme.setFrameIcon(this);
+        
+        // Setup icons
+        btnSave.setIcon(UITheme.getIcon("add.png", 16, 16));
+        btnUpdate.setIcon(UITheme.getIcon("edit.png", 16, 16));
+        btnDelete.setIcon(UITheme.getIcon("delete.png", 16, 16));
+        btnClear.setIcon(UITheme.getIcon("clear.png", 16, 16));
+        btnSearch.setIcon(UITheme.getIcon("search.png", 16, 16));
+        btnReset.setIcon(UITheme.getIcon("refresh.png", 16, 16));
+        btnBack.setIcon(UITheme.getIcon("back.png", 16, 16));
+        
         tableModel = (DefaultTableModel) tblPatients.getModel();
         UITheme.styleTable(tblPatients);
         loadPatientData();

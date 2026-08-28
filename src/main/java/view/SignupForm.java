@@ -23,6 +23,10 @@ public class SignupForm extends javax.swing.JFrame {
         this.parentLoginForm = parentLoginForm;
         initComponents();
         UITheme.setFrameIcon(this);
+        
+        // Setup icons
+        btnRegister.setIcon(UITheme.getIcon("add.png", 16, 16));
+        btnBackToLogin.setIcon(UITheme.getIcon("back.png", 16, 16));
     }
 
     /**
