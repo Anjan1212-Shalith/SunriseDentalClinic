@@ -41,6 +41,18 @@ public class PatientForm extends javax.swing.JFrame {
         tableModel = (DefaultTableModel) tblPatients.getModel();
         UITheme.styleTable(tblPatients);
         loadPatientData();
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                if (parentDashboard != null) {
+                    parentDashboard.setVisible(true);
+                    if (parentDashboard instanceof Dashboard) {
+                        ((Dashboard) parentDashboard).loadDashboardStatistics();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -84,6 +96,8 @@ public class PatientForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sunrise Dental Clinic - Patient Management");
+        setMinimumSize(new java.awt.Dimension(1050, 680));
+        setPreferredSize(new java.awt.Dimension(1050, 680));
 
         headerPanel.setBackground(new java.awt.Color(15, 118, 110));
 
@@ -130,7 +144,7 @@ public class PatientForm extends javax.swing.JFrame {
         );
 
         formCard.setBackground(new java.awt.Color(255, 255, 255));
-        formCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        formCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         lblHeading.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblHeading.setText("Patient Details");
@@ -278,7 +292,7 @@ public class PatientForm extends javax.swing.JFrame {
         );
 
         tableCard.setBackground(new java.awt.Color(255, 255, 255));
-        tableCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        tableCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         lblSearch.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblSearch.setText("Search Patient:");
@@ -411,12 +425,13 @@ public class PatientForm extends javax.swing.JFrame {
             return;
         }
 
-        if (!contact.matches("^0[0-9]{9}$")) {
-            JOptionPane.showMessageDialog(this, "Contact number must be a 10-digit Sri Lankan phone number (e.g., 0771234567)!", "Invalid Phone", JOptionPane.WARNING_MESSAGE);
+        String sanitizedContact = contact.replaceAll("[\\s\\-\\.]", "");
+        if (!sanitizedContact.matches("^(?:0|\\+94)?[0-9]{9,10}$")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid phone number (e.g., 0771234567)!", "Invalid Phone", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        Patient patient = new Patient(name, contact, address, history);
+        Patient patient = new Patient(name, sanitizedContact, address, history);
         boolean success = patientDAO.addPatient(patient);
 
         if (success) {
@@ -449,7 +464,13 @@ public class PatientForm extends javax.swing.JFrame {
             return;
         }
 
-        Patient patient = new Patient(id, name, contact, address, history);
+        String sanitizedContact = contact.replaceAll("[\\s\\-\\.]", "");
+        if (!sanitizedContact.matches("^(?:0|\\+94)?[0-9]{9,10}$")) {
+            JOptionPane.showMessageDialog(this, "Please enter a valid phone number (e.g., 0771234567)!", "Invalid Phone", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        Patient patient = new Patient(id, name, sanitizedContact, address, history);
         boolean success = patientDAO.updatePatient(patient);
 
         if (success) {
@@ -461,7 +482,7 @@ public class PatientForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                          
         String idStr = txtPatientId.getText().trim();
         if (idStr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please select a patient from the table to delete!", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -485,7 +506,7 @@ public class PatientForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Cannot delete patient with existing appointment records.", "Constraint Error", JOptionPane.ERROR_MESSAGE);
             }
         }
-    }//GEN-LAST:event_btnClearActionPerformed
+    }                                        
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         txtPatientId.setText("");
@@ -533,6 +554,12 @@ public class PatientForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tblPatientsMouseClicked
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (parentDashboard != null) {
+            parentDashboard.setVisible(true);
+            if (parentDashboard instanceof Dashboard) {
+                ((Dashboard) parentDashboard).loadDashboardStatistics();
+            }
+        }
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 

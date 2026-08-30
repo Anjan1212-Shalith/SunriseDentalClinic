@@ -30,6 +30,11 @@ public class PatientDAOTest {
         Patient patient = new Patient("Kasun Silva", testPhone, "No 12, Galle Road, Colombo 03", "No known allergies");
         boolean result = patientDAO.addPatient(patient);
         assertTrue(result, "Adding a valid patient record must return true");
+
+        // Clean up test patient so database stays clean
+        if (patient.getPatientId() > 0) {
+            patientDAO.deletePatient(patient.getPatientId());
+        }
     }
 
     @Test
@@ -37,22 +42,34 @@ public class PatientDAOTest {
     public void testSearchPatientByName() {
         // Ensure at least one test patient exists
         String testPhone = "071" + (int)(Math.random() * 9000000 + 1000000);
-        patientDAO.addPatient(new Patient("Nimal Perera", testPhone, "Colombo 07", "None"));
+        Patient p = new Patient("Nimal Perera", testPhone, "Colombo 07", "None");
+        patientDAO.addPatient(p);
 
         List<Patient> results = patientDAO.searchPatients("Perera");
         assertNotNull(results, "Search results should not be null");
         assertFalse(results.isEmpty(), "Should find at least one patient with name 'Perera'");
+
+        // Clean up
+        if (p.getPatientId() > 0) {
+            patientDAO.deletePatient(p.getPatientId());
+        }
     }
 
     @Test
     @DisplayName("TC-PAT-03: Searching patient by phone number should return matching list")
     public void testSearchPatientByContactNo() {
         String testPhone = "076" + (int)(Math.random() * 9000000 + 1000000);
-        patientDAO.addPatient(new Patient("Anura Kumara", testPhone, "Kandy Road, Kelaniya", "Penicillin allergy"));
+        Patient p = new Patient("Anura Kumara", testPhone, "Kandy Road, Kelaniya", "Penicillin allergy");
+        patientDAO.addPatient(p);
 
         List<Patient> results = patientDAO.searchPatients(testPhone);
         assertNotNull(results, "Search by contact number must return a non-null list");
         assertFalse(results.isEmpty(), "Should find the registered patient by contact number");
+
+        // Clean up
+        if (p.getPatientId() > 0) {
+            patientDAO.deletePatient(p.getPatientId());
+        }
     }
 
     @Test

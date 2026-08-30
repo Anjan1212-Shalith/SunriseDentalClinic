@@ -62,6 +62,18 @@ public class BillingForm extends javax.swing.JFrame {
             cmbAppointmentNo.setSelectedItem(preSelectedApptNo);
             onAppointmentSelected();
         }
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                if (parentDashboard != null) {
+                    parentDashboard.setVisible(true);
+                    if (parentDashboard instanceof Dashboard) {
+                        ((Dashboard) parentDashboard).loadDashboardStatistics();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -89,6 +101,8 @@ public class BillingForm extends javax.swing.JFrame {
         txtTreatmentFee = new javax.swing.JTextField();
         lblConsultFee = new javax.swing.JLabel();
         txtConsultationFee = new javax.swing.JTextField();
+        lblDiscountRate = new javax.swing.JLabel();
+        cmbDiscountRate = new javax.swing.JComboBox<>();
         lblDiscount = new javax.swing.JLabel();
         txtDiscount = new javax.swing.JTextField();
         lblTotal = new javax.swing.JLabel();
@@ -113,6 +127,8 @@ public class BillingForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sunrise Dental Clinic - Billing & Invoicing");
+        setMinimumSize(new java.awt.Dimension(1050, 680));
+        setPreferredSize(new java.awt.Dimension(1050, 680));
 
         headerPanel.setBackground(new java.awt.Color(15, 118, 110));
 
@@ -159,7 +175,7 @@ public class BillingForm extends javax.swing.JFrame {
         );
 
         formCard.setBackground(new java.awt.Color(255, 255, 255));
-        formCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        formCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         lblHeading.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblHeading.setText("Invoice Calculation");
@@ -197,6 +213,15 @@ public class BillingForm extends javax.swing.JFrame {
         txtConsultationFee.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         txtConsultationFee.setText("0.00");
 
+        lblDiscountRate.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        lblDiscountRate.setText("Discount Rate:");
+
+        cmbDiscountRate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbDiscountRateActionPerformed(evt);
+            }
+        });
+
         lblDiscount.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblDiscount.setText("Discount (LKR):");
 
@@ -214,8 +239,6 @@ public class BillingForm extends javax.swing.JFrame {
         lblPaymentStatus.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblPaymentStatus.setText("Status:");
 
-        cmbPaymentStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Paid", "Pending", "Unpaid" }));
-
         btnCalculate.setBackground(new java.awt.Color(15, 118, 110));
         btnCalculate.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnCalculate.setForeground(new java.awt.Color(255, 255, 255));
@@ -227,7 +250,7 @@ public class BillingForm extends javax.swing.JFrame {
             }
         });
 
-        btnSaveBill.setBackground(new java.awt.Color(16, 185, 129));
+        btnSaveBill.setBackground(new java.awt.Color(16, 185, 125));
         btnSaveBill.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnSaveBill.setForeground(new java.awt.Color(255, 255, 255));
         btnSaveBill.setText("💾 Save Bill");
@@ -262,6 +285,7 @@ public class BillingForm extends javax.swing.JFrame {
                             .addComponent(lblTreatmentType)
                             .addComponent(lblTreatmentFee)
                             .addComponent(lblConsultFee)
+                            .addComponent(lblDiscountRate)
                             .addComponent(lblDiscount)
                             .addComponent(lblTotal)
                             .addComponent(lblPaymentStatus))
@@ -270,6 +294,7 @@ public class BillingForm extends javax.swing.JFrame {
                             .addComponent(cmbPaymentStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTotalAmount)
                             .addComponent(txtDiscount)
+                            .addComponent(cmbDiscountRate, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtConsultationFee)
                             .addComponent(txtTreatmentFee)
                             .addComponent(txtTreatmentType)
@@ -309,6 +334,10 @@ public class BillingForm extends javax.swing.JFrame {
                     .addComponent(txtConsultationFee, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(formCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDiscountRate)
+                    .addComponent(cmbDiscountRate, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(formCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDiscount)
                     .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -325,11 +354,11 @@ public class BillingForm extends javax.swing.JFrame {
                 .addGroup(formCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSaveBill, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         receiptCard.setBackground(new java.awt.Color(255, 255, 255));
-        receiptCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        receiptCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         lblRecTitle.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         lblRecTitle.setText("Receipt Preview");
@@ -355,14 +384,14 @@ public class BillingForm extends javax.swing.JFrame {
         receiptCard.setLayout(receiptCardLayout);
         receiptCardLayout.setHorizontalGroup(
             receiptCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(receiptCardLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, receiptCardLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(receiptCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(receiptCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPaneReceipt)
                     .addGroup(receiptCardLayout.createSequentialGroup()
                         .addComponent(lblRecTitle)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15))
         );
         receiptCardLayout.setVerticalGroup(
@@ -373,19 +402,19 @@ public class BillingForm extends javax.swing.JFrame {
                     .addComponent(lblRecTitle)
                     .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPaneReceipt, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(jScrollPaneReceipt, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
                 .addGap(12, 12, 12))
         );
 
         tableCard.setBackground(new java.awt.Color(255, 255, 255));
-        tableCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        tableCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         lblSearch.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblSearch.setText("Search Bills:");
 
         txtSearch.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
 
-        btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSearch.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnSearch.setText("Search");
         btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
@@ -394,7 +423,7 @@ public class BillingForm extends javax.swing.JFrame {
             }
         });
 
-        btnReset.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnReset.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnReset.setText("Reset");
         btnReset.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnReset.addActionListener(new java.awt.event.ActionListener() {
@@ -408,7 +437,7 @@ public class BillingForm extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Bill ID", "Appt No", "Patient ID", "Patient Name", "Treatment Fee", "Consult Fee", "Discount", "Total"
+                "Bill ID", "Appt No", "Patient ID", "Patient Name", "Treatment (LKR)", "Consult (LKR)", "Discount (LKR)", "Total (LKR)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -417,11 +446,6 @@ public class BillingForm extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
-            }
-        });
-        tblBills.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblBillsMouseClicked(evt);
             }
         });
         jScrollPaneTable.setViewportView(tblBills);
@@ -433,11 +457,11 @@ public class BillingForm extends javax.swing.JFrame {
             .addGroup(tableCardLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(tableCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneTable, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)
+                    .addComponent(jScrollPaneTable, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
                     .addGroup(tableCardLayout.createSequentialGroup()
                         .addComponent(lblSearch)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -448,14 +472,14 @@ public class BillingForm extends javax.swing.JFrame {
         tableCardLayout.setVerticalGroup(
             tableCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(tableCardLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addGap(12, 12, 12)
                 .addGroup(tableCardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSearch)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPaneTable, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPaneTable, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addGap(15, 15, 15))
         );
 
@@ -478,13 +502,13 @@ public class BillingForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(formCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(receiptCard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(tableCard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -516,7 +540,7 @@ public class BillingForm extends javax.swing.JFrame {
             double consultFee = d != null ? d.getConsultationFee() : 2000.00;
             txtConsultationFee.setText(String.format("%.2f", consultFee));
 
-            btnCalculateActionPerformed(null);
+            onDiscountRateSelected();
         }
     }
 
@@ -541,6 +565,50 @@ public class BillingForm extends javax.swing.JFrame {
         onAppointmentSelected();
     }//GEN-LAST:event_cmbAppointmentNoActionPerformed
 
+    private void cmbDiscountRateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbDiscountRateActionPerformed
+        onDiscountRateSelected();
+    }//GEN-LAST:event_cmbDiscountRateActionPerformed
+
+    private void onDiscountRateSelected() {
+        try {
+            double treatFee = Double.parseDouble(txtTreatmentFee.getText().trim());
+            double consultFee = Double.parseDouble(txtConsultationFee.getText().trim());
+            double subtotal = treatFee + consultFee;
+
+            int index = cmbDiscountRate.getSelectedIndex();
+            double discountAmt = 0.0;
+            switch (index) {
+                case 0: // 0% - No Discount
+                    discountAmt = 0.0;
+                    txtDiscount.setText("0.00");
+                    txtDiscount.setEditable(false);
+                    break;
+                case 1: // 10% - Promotional
+                    discountAmt = subtotal * 0.10;
+                    txtDiscount.setText(String.format("%.2f", discountAmt));
+                    txtDiscount.setEditable(false);
+                    break;
+                case 2: // 25% - Senior Citizen
+                    discountAmt = subtotal * 0.25;
+                    txtDiscount.setText(String.format("%.2f", discountAmt));
+                    txtDiscount.setEditable(false);
+                    break;
+                case 3: // 50% - Staff Welfare
+                    discountAmt = subtotal * 0.50;
+                    txtDiscount.setText(String.format("%.2f", discountAmt));
+                    txtDiscount.setEditable(false);
+                    break;
+                case 4: // Custom Amount (LKR)
+                    txtDiscount.setEditable(true);
+                    txtDiscount.requestFocus();
+                    break;
+            }
+
+            btnCalculateActionPerformed(null);
+        } catch (NumberFormatException ignored) {
+        }
+    }
+
     private void btnCalculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalculateActionPerformed
         try {
             double treatFee = Double.parseDouble(txtTreatmentFee.getText().trim());
@@ -548,7 +616,10 @@ public class BillingForm extends javax.swing.JFrame {
             double discount = Double.parseDouble(txtDiscount.getText().trim());
 
             double subtotal = treatFee + consultFee;
-            double total = Math.max(0, subtotal - discount);
+            double discountPercent = subtotal > 0 ? (discount / subtotal) * 100.0 : 0.0;
+
+            // Stored procedure calculation (sp_CalculateBill)
+            double total = billDAO.calculateBillProcedure(treatFee, consultFee, discountPercent);
             txtTotalAmount.setText(String.format("%.2f", total));
 
             generateReceiptPreviewText(treatFee, consultFee, discount, total);
@@ -563,6 +634,13 @@ public class BillingForm extends javax.swing.JFrame {
         String treatment = txtTreatmentType.getText().trim();
         String status = (String) cmbPaymentStatus.getSelectedItem();
         String dateStr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        String discountLabel = "Discount Applied";
+        int discIdx = cmbDiscountRate.getSelectedIndex();
+        if (discIdx == 1) discountLabel = "Discount (10% Promo)";
+        else if (discIdx == 2) discountLabel = "Discount (25% Senior)";
+        else if (discIdx == 3) discountLabel = "Discount (50% Staff)";
+        else if (discIdx == 0) discountLabel = "Discount (0%)";
 
         StringBuilder sb = new StringBuilder();
         sb.append("=================================================================\n");
@@ -579,7 +657,7 @@ public class BillingForm extends javax.swing.JFrame {
         sb.append(String.format(" %-40s : LKR %12.2f\n", "Dentist Consultation Fee", consultFee));
         sb.append("-----------------------------------------------------------------\n");
         sb.append(String.format(" %-40s : LKR %12.2f\n", "Subtotal", treatFee + consultFee));
-        sb.append(String.format(" %-40s : LKR %12.2f\n", "Discount Applied", discount));
+        sb.append(String.format(" %-40s : LKR %12.2f\n", discountLabel, discount));
         sb.append("=================================================================\n");
         sb.append(String.format(" NET TOTAL PAYABLE                        : LKR %12.2f\n", total));
         sb.append(String.format(" Payment Status                           : %s\n", status));
@@ -628,6 +706,7 @@ public class BillingForm extends javax.swing.JFrame {
         txtTreatmentType.setText("");
         txtTreatmentFee.setText("0.00");
         txtConsultationFee.setText("0.00");
+        cmbDiscountRate.setSelectedIndex(0);
         txtDiscount.setText("0.00");
         txtTotalAmount.setText("0.00");
         txaReceiptPreview.setText("");
@@ -683,25 +762,25 @@ public class BillingForm extends javax.swing.JFrame {
         if (row >= 0) {
             currentBillId = Integer.parseInt(tableModel.getValueAt(row, 0).toString());
             String apptNo = tableModel.getValueAt(row, 1).toString();
-            currentPatientId = Integer.parseInt(tableModel.getValueAt(row, 2).toString());
-            String patientName = tableModel.getValueAt(row, 3).toString();
-            double treatFee = Double.parseDouble(tableModel.getValueAt(row, 4).toString());
-            double consultFee = Double.parseDouble(tableModel.getValueAt(row, 5).toString());
-            double discount = Double.parseDouble(tableModel.getValueAt(row, 6).toString());
-            double total = Double.parseDouble(tableModel.getValueAt(row, 7).toString());
-
             cmbAppointmentNo.setSelectedItem(apptNo);
-            txtPatientName.setText(patientName);
-            txtTreatmentFee.setText(String.format("%.2f", treatFee));
-            txtConsultationFee.setText(String.format("%.2f", consultFee));
-            txtDiscount.setText(String.format("%.2f", discount));
-            txtTotalAmount.setText(String.format("%.2f", total));
+            txtPatientName.setText(tableModel.getValueAt(row, 3).toString());
+            txtTreatmentFee.setText(tableModel.getValueAt(row, 4).toString());
+            txtConsultationFee.setText(tableModel.getValueAt(row, 5).toString());
+            txtDiscount.setText(tableModel.getValueAt(row, 6).toString());
+            txtTotalAmount.setText(tableModel.getValueAt(row, 7).toString());
 
-            generateReceiptPreviewText(treatFee, consultFee, discount, total);
+            cmbDiscountRate.setSelectedIndex(4); // Custom / exact value from selected bill
+            btnCalculateActionPerformed(null);
         }
     }//GEN-LAST:event_tblBillsMouseClicked
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (parentDashboard != null) {
+            parentDashboard.setVisible(true);
+            if (parentDashboard instanceof Dashboard) {
+                ((Dashboard) parentDashboard).loadDashboardStatistics();
+            }
+        }
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 
@@ -714,6 +793,7 @@ public class BillingForm extends javax.swing.JFrame {
     private javax.swing.JButton btnSaveBill;
     private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> cmbAppointmentNo;
+    private javax.swing.JComboBox<String> cmbDiscountRate;
     private javax.swing.JComboBox<String> cmbPaymentStatus;
     private javax.swing.JPanel formCard;
     private javax.swing.JPanel headerPanel;
@@ -722,6 +802,7 @@ public class BillingForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblAppt;
     private javax.swing.JLabel lblConsultFee;
     private javax.swing.JLabel lblDiscount;
+    private javax.swing.JLabel lblDiscountRate;
     private javax.swing.JLabel lblHeading;
     private javax.swing.JLabel lblLogo;
     private javax.swing.JLabel lblPatientName;
