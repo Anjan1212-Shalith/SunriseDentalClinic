@@ -27,6 +27,17 @@ public class SignupForm extends javax.swing.JFrame {
         // Setup icons
         btnRegister.setIcon(UITheme.getIcon("add.png", 16, 16));
         btnBackToLogin.setIcon(UITheme.getIcon("back.png", 16, 16));
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                if (parentLoginForm != null) {
+                    parentLoginForm.setVisible(true);
+                } else {
+                    new LoginForm().setVisible(true);
+                }
+            }
+        });
     }
 
     /**
@@ -124,7 +135,7 @@ public class SignupForm extends javax.swing.JFrame {
         lblRole.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblRole.setText("Role *:");
 
-        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receptionist", "Dentist", "Admin" }));
+        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Receptionist", "Dentist" }));
 
         lblContact.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblContact.setText("Contact No *:");

@@ -57,6 +57,18 @@ public class AppointmentForm extends javax.swing.JFrame {
         generateNewAppointmentNo();
         
         cmbPatient.addActionListener(e -> checkPatientDoctorRecommendations());
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                if (parentDashboard != null) {
+                    parentDashboard.setVisible(true);
+                    if (parentDashboard instanceof Dashboard) {
+                        ((Dashboard) parentDashboard).loadDashboardStatistics();
+                    }
+                }
+            }
+        });
     }
 
     private void checkPatientDoctorRecommendations() {
@@ -125,6 +137,8 @@ public class AppointmentForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sunrise Dental Clinic - Appointment Scheduling");
+        setMinimumSize(new java.awt.Dimension(1050, 680));
+        setPreferredSize(new java.awt.Dimension(1050, 680));
 
         headerPanel.setBackground(new java.awt.Color(15, 118, 110));
 
@@ -171,7 +185,7 @@ public class AppointmentForm extends javax.swing.JFrame {
         );
 
         formCard.setBackground(new java.awt.Color(255, 255, 255));
-        formCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        formCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         lblHeading.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblHeading.setText("Schedule Appointment");
@@ -375,7 +389,7 @@ public class AppointmentForm extends javax.swing.JFrame {
         );
 
         tableCard.setBackground(new java.awt.Color(255, 255, 255));
-        tableCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        tableCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         lblSearch.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         lblSearch.setText("Search Appt:");
@@ -688,6 +702,7 @@ public class AppointmentForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Please select an appointment first!", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        this.setVisible(false);
         BillingForm billingForm = new BillingForm(parentDashboard != null ? parentDashboard : this, apptNo);
         billingForm.setVisible(true);
     }//GEN-LAST:event_btnProceedToBillingActionPerformed
@@ -760,6 +775,12 @@ public class AppointmentForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tblAppointmentsMouseClicked
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (parentDashboard != null) {
+            parentDashboard.setVisible(true);
+            if (parentDashboard instanceof Dashboard) {
+                ((Dashboard) parentDashboard).loadDashboardStatistics();
+            }
+        }
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 

@@ -41,6 +41,18 @@ public class AdminStaffForm extends javax.swing.JFrame {
         tableModel = (DefaultTableModel) tblUsers.getModel();
         UITheme.styleTable(tblUsers);
         loadUserData();
+
+        this.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                if (parentDashboard != null) {
+                    parentDashboard.setVisible(true);
+                    if (parentDashboard instanceof Dashboard) {
+                        ((Dashboard) parentDashboard).loadDashboardStatistics();
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -553,6 +565,12 @@ public class AdminStaffForm extends javax.swing.JFrame {
     }//GEN-LAST:event_tblUsersMouseClicked
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (parentDashboard != null) {
+            parentDashboard.setVisible(true);
+            if (parentDashboard instanceof Dashboard) {
+                ((Dashboard) parentDashboard).loadDashboardStatistics();
+            }
+        }
         this.dispose();
     }//GEN-LAST:event_btnBackActionPerformed
 

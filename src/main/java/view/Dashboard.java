@@ -110,6 +110,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sunrise Dental Clinic - Management System Dashboard");
+        setMinimumSize(new java.awt.Dimension(1050, 680));
+        setPreferredSize(new java.awt.Dimension(1050, 680));
 
         headerPanel.setBackground(new java.awt.Color(15, 118, 110));
 
@@ -119,7 +121,6 @@ public class Dashboard extends javax.swing.JFrame {
         lblTitle.setForeground(new java.awt.Color(255, 255, 255));
         lblTitle.setText("SUNRISE DENTAL CLINIC");
 
-        lblSub.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblSub.setForeground(new java.awt.Color(204, 251, 241));
         lblSub.setText("Colombo Center - Computerized Clinic Management System");
 
@@ -162,7 +163,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnPatients.setBackground(new java.awt.Color(30, 41, 59));
         btnPatients.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnPatients.setForeground(new java.awt.Color(255, 255, 255));
-        btnPatients.setText("Patient Management");
+        btnPatients.setText("👥 Patient Management");
         btnPatients.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPatients.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnPatients.addActionListener(new java.awt.event.ActionListener() {
@@ -174,7 +175,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnAppointments.setBackground(new java.awt.Color(30, 41, 59));
         btnAppointments.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnAppointments.setForeground(new java.awt.Color(255, 255, 255));
-        btnAppointments.setText("Appointment Booking");
+        btnAppointments.setText("📅 Appointment Booking");
         btnAppointments.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAppointments.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnAppointments.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +187,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnBilling.setBackground(new java.awt.Color(30, 41, 59));
         btnBilling.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnBilling.setForeground(new java.awt.Color(255, 255, 255));
-        btnBilling.setText("Billing & Invoicing");
+        btnBilling.setText("💳 Billing & Invoicing");
         btnBilling.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBilling.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnBilling.addActionListener(new java.awt.event.ActionListener() {
@@ -198,7 +199,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnStaffManagement.setBackground(new java.awt.Color(30, 41, 59));
         btnStaffManagement.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnStaffManagement.setForeground(new java.awt.Color(255, 255, 255));
-        btnStaffManagement.setText("Staff Management");
+        btnStaffManagement.setText("👤 Staff Management");
         btnStaffManagement.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStaffManagement.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnStaffManagement.addActionListener(new java.awt.event.ActionListener() {
@@ -210,7 +211,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnHelp.setBackground(new java.awt.Color(30, 41, 59));
         btnHelp.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnHelp.setForeground(new java.awt.Color(255, 255, 255));
-        btnHelp.setText("Help & User Guide");
+        btnHelp.setText("❓ Help & User Guide");
         btnHelp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnHelp.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnHelp.addActionListener(new java.awt.event.ActionListener() {
@@ -222,7 +223,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnToggleWebService.setBackground(new java.awt.Color(30, 41, 59));
         btnToggleWebService.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         btnToggleWebService.setForeground(new java.awt.Color(255, 255, 255));
-        btnToggleWebService.setText("Start Web Service");
+        btnToggleWebService.setText("🌐 Start Web Service");
         btnToggleWebService.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnToggleWebService.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnToggleWebService.addActionListener(new java.awt.event.ActionListener() {
@@ -234,7 +235,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnLogout.setBackground(new java.awt.Color(239, 68, 68));
         btnLogout.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         btnLogout.setForeground(new java.awt.Color(255, 255, 255));
-        btnLogout.setText("Logout");
+        btnLogout.setText("🚪 Logout");
         btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,9 +283,8 @@ public class Dashboard extends javax.swing.JFrame {
         statsPanel.setLayout(new java.awt.GridLayout(1, 4, 15, 0));
 
         cardPatients.setBackground(new java.awt.Color(255, 255, 255));
-        cardPatients.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        cardPatients.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        lblStatTitle1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblStatTitle1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStatTitle1.setText("Registered Patients");
 
@@ -317,9 +317,8 @@ public class Dashboard extends javax.swing.JFrame {
         statsPanel.add(cardPatients);
 
         cardAppointments.setBackground(new java.awt.Color(255, 255, 255));
-        cardAppointments.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        cardAppointments.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        lblStatTitle2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblStatTitle2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStatTitle2.setText("Today's Appointments");
 
@@ -352,9 +351,8 @@ public class Dashboard extends javax.swing.JFrame {
         statsPanel.add(cardAppointments);
 
         cardRevenue.setBackground(new java.awt.Color(255, 255, 255));
-        cardRevenue.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        cardRevenue.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        lblStatTitle3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblStatTitle3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStatTitle3.setText("Total Clinic Revenue");
 
@@ -387,9 +385,8 @@ public class Dashboard extends javax.swing.JFrame {
         statsPanel.add(cardRevenue);
 
         cardService.setBackground(new java.awt.Color(255, 255, 255));
-        cardService.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        cardService.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
-        lblStatTitle4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         lblStatTitle4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblStatTitle4.setText("REST Web Service");
 
@@ -422,7 +419,7 @@ public class Dashboard extends javax.swing.JFrame {
         statsPanel.add(cardService);
 
         tableCard.setBackground(new java.awt.Color(255, 255, 255));
-        tableCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(226, 232, 240), 1, true));
+        tableCard.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         lblTableTitle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblTableTitle.setText("Scheduled Appointments Overview");
@@ -486,7 +483,7 @@ public class Dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(sidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sidebarPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(statsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -548,16 +545,19 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     private void btnPatientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPatientsActionPerformed
+        this.setVisible(false);
         PatientForm patientForm = new PatientForm(this);
         patientForm.setVisible(true);
     }//GEN-LAST:event_btnPatientsActionPerformed
 
     private void btnAppointmentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAppointmentsActionPerformed
+        this.setVisible(false);
         AppointmentForm appointmentForm = new AppointmentForm(this);
         appointmentForm.setVisible(true);
     }//GEN-LAST:event_btnAppointmentsActionPerformed
 
     private void btnBillingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillingActionPerformed
+        this.setVisible(false);
         BillingForm billingForm = new BillingForm(this);
         billingForm.setVisible(true);
     }//GEN-LAST:event_btnBillingActionPerformed
@@ -571,6 +571,7 @@ public class Dashboard extends javax.swing.JFrame {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
+        this.setVisible(false);
         AdminStaffForm adminForm = new AdminStaffForm(this);
         adminForm.setVisible(true);
     }//GEN-LAST:event_btnStaffManagementActionPerformed
@@ -586,14 +587,17 @@ public class Dashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Clinic REST Web Service has been stopped.", "Web Service Offline", JOptionPane.INFORMATION_MESSAGE);
         } else {
             ClinicWebService.startServer();
+            int port = ClinicWebService.getActivePort();
             JOptionPane.showMessageDialog(this,
-                    "Clinic REST Web Service is now running!\n\n" +
-                    "Available Endpoints:\n" +
-                    "• http://localhost:8088/api/status\n" +
-                    "• http://localhost:8088/api/appointments\n" +
-                    "• http://localhost:8088/api/appointment?no=APT-1001\n" +
-                    "• http://localhost:8088/api/dentists\n" +
-                    "• http://localhost:8088/api/treatments",
+                    "Clinic REST Web Service is now running on Port " + port + "!\n\n" +
+                    "🌐 Interactive Web Portal UI:\n" +
+                    "• http://localhost:" + port + "/\n\n" +
+                    "JSON Endpoints:\n" +
+                    "• http://localhost:" + port + "/api/status\n" +
+                    "• http://localhost:" + port + "/api/appointments\n" +
+                    "• http://localhost:" + port + "/api/appointment?no=APT-1001\n" +
+                    "• http://localhost:" + port + "/api/dentists\n" +
+                    "• http://localhost:" + port + "/api/treatments",
                     "Web Service Active",
                     JOptionPane.INFORMATION_MESSAGE);
         }
