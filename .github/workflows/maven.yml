@@ -7,6 +7,7 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -37,7 +38,7 @@ jobs:
 
     - name: Initialize Database Schema and Stored Procedures
       run: |
-        mysql -h 127.0.0.1 -u root clinic_db < database.sql
+        mysql -h 127.0.0.1 -P 3306 -u root --protocol=tcp clinic_db < clinic_db.sql
 
     - name: Execute Automated JUnit 5 Unit Tests with Maven Surefire
       run: mvn --batch-mode --update-snapshots test
