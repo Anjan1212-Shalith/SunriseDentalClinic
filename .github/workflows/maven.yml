@@ -1,0 +1,53 @@
+# GitHub Actions CI/CD Continuous Integration Workflow
+# Sunrise Dental Clinic Management System - CIS6003 Advanced Programming
+name: Java CI/CD Automated Build & Test Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    name: Build, Test & Package Suite
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+          MYSQL_DATABASE: clinic_db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+    - name: Checkout Code Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Java JDK (Amazon Corretto 17)
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'corretto'
+        cache: maven
+
+    - name: Initialize Database Schema and Stored Procedures
+      run: |
+        mysql -h 127.0.0.1 -u root clinic_db < database.sql
+
+    - name: Execute Automated JUnit 5 Unit Tests with Maven Surefire
+      run: mvn --batch-mode --update-snapshots test
+
+    - name: Compile and Package Executable JAR
+      run: mvn --batch-mode package -DskipTests
+
+    - name: Upload Build Artifacts (.jar)
+      uses: actions/upload-artifact@v4
+      with:
+        name: SunriseDentalClinic-Executable-App
+        path: target/*.jar
+        retention-days: 14
